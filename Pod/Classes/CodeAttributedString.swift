@@ -46,6 +46,9 @@ open class CodeAttributedString : NSTextStorage
     
     /// This object will be notified before and after the highlighting.
     open var highlightDelegate : HighlightDelegate?
+    
+    /// Line Spacing
+    var lineHeight: CGFloat = 0
 
     /**
      Initialize the CodeAttributedString
@@ -56,6 +59,20 @@ open class CodeAttributedString : NSTextStorage
     public init(highlightr: Highlightr = Highlightr()!)
     {
         self.highlightr = highlightr
+        super.init()
+        setupListeners()
+    }
+    
+    /**
+     Initialize the CodeAttributedString
+
+     - parameter lineHeight: The line spacing.
+
+     */
+    public init(lineHeight: CGFloat)
+    {
+        self.highlightr = Highlightr()!
+        self.lineHeight = lineHeight
         super.init()
         setupListeners()
     }
@@ -113,7 +130,13 @@ open class CodeAttributedString : NSTextStorage
      */
     open override func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [AttributedStringKey : Any]
     {
-        return stringStorage.attributes(at: location, effectiveRange: range)
+        var attributes = stringStorage.attributes(at: location, effectiveRange: range)
+        if (lineHeight > 0) {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 30
+            attributes[NSAttributedString.Key.paragraphStyle] = paragraphStyle
+        }
+        return attributes
     }
     
     /**
