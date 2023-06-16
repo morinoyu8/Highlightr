@@ -49,6 +49,7 @@ open class CodeAttributedString : NSTextStorage
     
     /// Line Spacing
     var lineHeight: CGFloat = 0
+    let paragraphStyle = NSMutableParagraphStyle()
 
     /**
      Initialize the CodeAttributedString
@@ -132,7 +133,6 @@ open class CodeAttributedString : NSTextStorage
     {
         var attributes = stringStorage.attributes(at: location, effectiveRange: range)
         if (lineHeight > 0) {
-            let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = lineHeight
             attributes[NSAttributedString.Key.paragraphStyle] = paragraphStyle
         }
